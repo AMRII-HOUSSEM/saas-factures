@@ -1,0 +1,47 @@
+version: "3.9"
+services:
+  db:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: saas
+      MYSQL_USER: saasuser
+      MYSQL_PASSWORD: saaspassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    container_name: laravel
+    restart: always
+    ports:
+      - "8000:9000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_DATABASE: saas
+      DB_USERNAME: saasuser
+      DB_PASSWORD: saaspassword
+    volumes:
+      - ./backend:/var/www
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    container_name: react
+    restart: always
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+
+volumes:
+  dbdata:
