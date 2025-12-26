@@ -6,9 +6,9 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: saas
-      MYSQL_USER: saasuser
-      MYSQL_PASSWORD: saaspassword
+      MYSQL_DATABASE: saas_platform
+      MYSQL_USER: app_service
+      MYSQL_PASSWORD: S3rv!ceDB#2025
     ports:
       - "3306:3306"
     volumes:
@@ -26,9 +26,9 @@ services:
       - db
     environment:
       DB_HOST: db
-      DB_DATABASE: saas
-      DB_USERNAME: saasuser
-      DB_PASSWORD: saaspassword
+      DB_DATABASE: saas_platform
+      DB_USERNAME: app_service
+      DB_PASSWORD: S3rv!ceDB#2025
     volumes:
       - ./backend:/var/www
 
