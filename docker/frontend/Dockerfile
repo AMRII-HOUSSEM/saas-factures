@@ -1,22 +1,17 @@
-# docker/frontend/Dockerfile
-FROM node:20
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Copier uniquement package.json et package-lock.json
-COPY ./frontend/package*.json ./
+# Copier uniquement les fichiers de dépendances
+COPY ./frontend/package.json .
 
-# Installer les dépendances propres à Linux
-RUN npm ci --legacy-peer-deps
+# Installer les dépendances Linux
+RUN npm install
 
-# Copier tout le code
-COPY ./frontend /app
+# Copier le reste du code
+COPY ./frontend .
 
-# Installer vite globalement pour éviter les problèmes
-RUN npm install -g vite
-
-# Exposer le port
+# Port du serveur Vite
 EXPOSE 5173
 
-# Lancer Vite
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "dev", "--", "--host"]
